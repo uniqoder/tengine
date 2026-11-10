@@ -1,0 +1,14 @@
+Checks: >
+  -*,
+  bugprone-*,
+  clang-analyzer-*,
+  cppcoreguidelines-*,
+  performance-*,
+  portability-*,
+  readability-*
+
+WarningsAsErrors: ''
+
+HeaderFilterRegex: 'include/tengine/.*'
+
+FormatStyle: file

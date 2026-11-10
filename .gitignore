@@ -1,0 +1,21 @@
+# Build output
+build/
+cmake-build-*/
+
+# IDE
+.idea/
+.vscode/
+.cache/
+
+# Compiled files
+*.o
+*.a
+*.so
+*.out
+
+# Documentation output
+docs/html/
+docs/latex/
+
+# OS
+.DS_Store
