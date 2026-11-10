@@ -1,5 +1,6 @@
 #include "tengine/math/vector3.hpp"
 #include "tengine/math/scalar.hpp"
+#include <cassert>
 #include <cmath>
 
 namespace tengine::math
@@ -12,11 +13,13 @@ Scalar Vector3::length() const noexcept
 
 Vector3 Vector3::normalized() const noexcept
 {
+    assert(!is_zero());
     return *this / length();
 }
 
 void Vector3::normalize() noexcept
 {
+    assert(!is_zero());
     *this /= length();
 }
 
