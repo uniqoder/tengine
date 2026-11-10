@@ -5,7 +5,8 @@ Checks: >
   cppcoreguidelines-*,
   performance-*,
   portability-*,
-  readability-*
+  readability-*,
+  -cppcoreguidelines-avoid-do-while
 
 WarningsAsErrors: ''
 
