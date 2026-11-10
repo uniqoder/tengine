@@ -1,7 +1,6 @@
 #pragma once
 
 #include <array>
-#include <cstddef>
 
 #include "scalar.hpp"
 #include "vector3.hpp"
