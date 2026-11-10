@@ -1,7 +1,9 @@
 Checks: >
   -*,
   bugprone-*,
+  clang-diagnostic-*,
   clang-analyzer-*,
+  misc-*,
   cppcoreguidelines-*,
   performance-*,
   portability-*,
