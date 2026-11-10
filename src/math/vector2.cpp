@@ -27,17 +27,12 @@ Scalar distance(const Vector2& vec1, const Vector2& vec2) noexcept
 
 Scalar angle(const Vector2& vec1, const Vector2& vec2) noexcept
 {
-    Vector2 diff = vec2 - vec1;
-    return std::atan2(diff.y, diff.x);
+    return std::acos(dot(vec1, vec2) / vec1.length() * vec2.length());
 }
 
 Vector2 lerp(const Vector2& start, const Vector2& end, Scalar prog) noexcept
 {
-    Vector2 result = start;
-    result.x = lerp(start.x, end.x, prog);
-    result.y = lerp(start.y, end.y, prog);
-
-    return result;
+    return start + (end - start) * prog;
 }
 
 }; // namespace tengine::math
