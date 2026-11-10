@@ -38,28 +38,28 @@ struct Vector2
         return {-x, -y};
     }
 
-    [[nodiscard]] constexpr Vector2& operator+=(const Vector2& rhs) noexcept
+    constexpr Vector2& operator+=(const Vector2& rhs) noexcept
     {
         x += rhs.x;
         y += rhs.y;
         return *this;
     }
 
-    [[nodiscard]] constexpr Vector2& operator-=(const Vector2& rhs) noexcept
+    constexpr Vector2& operator-=(const Vector2& rhs) noexcept
     {
         x -= rhs.x;
         y -= rhs.y;
         return *this;
     }
 
-    [[nodiscard]] constexpr Vector2& operator*=(Scalar rhs) noexcept
+    constexpr Vector2& operator*=(Scalar rhs) noexcept
     {
         x *= rhs;
         y *= rhs;
         return *this;
     }
 
-    [[nodiscard]] constexpr Vector2& operator/=(Scalar rhs) noexcept
+    constexpr Vector2& operator/=(Scalar rhs) noexcept
     {
         x /= rhs;
         y /= rhs;
@@ -108,12 +108,12 @@ struct Vector2
 }; // struct Vector2
 
 // Free operators
-[[nodiscard]] constexpr Vector2 operator+(Vector2 lhs, Vector2& rhs) noexcept
+[[nodiscard]] constexpr Vector2 operator+(Vector2 lhs, const Vector2& rhs) noexcept
 {
     return lhs += rhs;
 }
 
-[[nodiscard]] constexpr Vector2 operator-(Vector2 lhs, Vector2& rhs) noexcept
+[[nodiscard]] constexpr Vector2 operator-(Vector2 lhs, const Vector2& rhs) noexcept
 {
     return lhs -= rhs;
 }
@@ -139,11 +139,11 @@ struct Vector2
     return vec1.x * vec2.x + vec1.y * vec2.y;
 }
 
-[[nodiscard]] constexpr Scalar distance(const Vector2& vec1, const Vector2& vec2) noexcept;
+[[nodiscard]] Scalar distance(const Vector2& vec1, const Vector2& vec2) noexcept;
 
-[[nodiscard]] constexpr Scalar angle(const Vector2& vec1, const Vector2& vec2) noexcept;
+[[nodiscard]] Scalar angle(const Vector2& vec1, const Vector2& vec2) noexcept;
 
-[[nodiscard]] constexpr Scalar lerp(const Vector2& start, const Vector2& end, Scalar prog) noexcept;
+[[nodiscard]] Vector2 lerp(const Vector2& start, const Vector2& end, Scalar prog) noexcept;
 
 using Vec2 = Vector2;
 
