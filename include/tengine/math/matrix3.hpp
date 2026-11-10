@@ -1,6 +1,8 @@
 #pragma once
 
 #include <array>
+#include <cassert>
+#include <cmath>
 
 #include "scalar.hpp"
 #include "vector3.hpp"
@@ -26,9 +28,15 @@ struct Matrix3
     [[nodiscard]] const Scalar& operator()(int row, int column) const noexcept;
 
     // Factory methods
-    [[nodiscard]] static constexpr Matrix3 identity() noexcept;
+    [[nodiscard]] static constexpr Matrix3 identity() noexcept
+    {
+        return Matrix3(1);
+    }
 
-    [[nodiscard]] static constexpr Matrix3 zero() noexcept;
+    [[nodiscard]] static constexpr Matrix3 zero() noexcept
+    {
+        return Matrix3(0);
+    }
 
     // Matrix operations
     [[nodiscard]] Matrix3 transposed() const noexcept;
