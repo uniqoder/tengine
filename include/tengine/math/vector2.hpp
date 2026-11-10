@@ -71,7 +71,7 @@ struct Vector2
 
     [[nodiscard]] Scalar length_squared() const noexcept
     {
-        return x * x + y * y;
+        return square(x) + square(y);
     }
 
     [[nodiscard]] Vector2 normalized() const noexcept;

@@ -89,7 +89,7 @@ struct Vector4
 
     [[nodiscard]] Scalar length_squared() const noexcept
     {
-        return x * x + y * y + z * z + w * w;
+        return square(x) + square(y) + square(z) + square(w);
     }
 
     [[nodiscard]] Vector4 normalized() const noexcept;
