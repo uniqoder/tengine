@@ -47,7 +47,7 @@ struct Vector3
         return {-x, -y, -z};
     }
 
-    [[nodiscard]] constexpr Vector3& operator+=(const Vector3& rhs) noexcept
+    constexpr Vector3& operator+=(const Vector3& rhs) noexcept
     {
         x += rhs.x;
         y += rhs.y;
@@ -55,7 +55,7 @@ struct Vector3
         return *this;
     }
 
-    [[nodiscard]] constexpr Vector3& operator-=(const Vector3& rhs) noexcept
+    constexpr Vector3& operator-=(const Vector3& rhs) noexcept
     {
         x -= rhs.x;
         y -= rhs.y;
@@ -63,7 +63,7 @@ struct Vector3
         return *this;
     }
 
-    [[nodiscard]] constexpr Vector3& operator*=(Scalar rhs) noexcept
+    constexpr Vector3& operator*=(Scalar rhs) noexcept
     {
         x *= rhs;
         y *= rhs;
@@ -71,7 +71,7 @@ struct Vector3
         return *this;
     }
 
-    [[nodiscard]] constexpr Vector3& operator/=(Scalar rhs) noexcept
+    constexpr Vector3& operator/=(Scalar rhs) noexcept
     {
         x /= rhs;
         y /= rhs;
@@ -126,12 +126,12 @@ struct Vector3
 }; // struct Vector3
 
 // Free operators
-[[nodiscard]] constexpr Vector3 operator+(Vector3 lhs, Vector3& rhs) noexcept
+[[nodiscard]] constexpr Vector3 operator+(Vector3 lhs, const Vector3& rhs) noexcept
 {
     return lhs += rhs;
 }
 
-[[nodiscard]] constexpr Vector3 operator-(Vector3 lhs, Vector3& rhs) noexcept
+[[nodiscard]] constexpr Vector3 operator-(Vector3 lhs, const Vector3& rhs) noexcept
 {
     return lhs -= rhs;
 }
@@ -157,15 +157,15 @@ struct Vector3
     return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
 }
 
-[[nodiscard]] constexpr Vector3 cross(const Vector3& vec1, const Vector3& vec2) noexcept;
+[[nodiscard]] Vector3 cross(const Vector3& vec1, const Vector3& vec2) noexcept;
 
-[[nodiscard]] constexpr Scalar distance(const Vector3& vec1, const Vector3& vec2) noexcept;
+[[nodiscard]] Scalar distance(const Vector3& vec1, const Vector3& vec2) noexcept;
 
-[[nodiscard]] constexpr Scalar angle(const Vector3& vec1, const Vector3& vec2) noexcept;
+[[nodiscard]] Scalar angle(const Vector3& vec1, const Vector3& vec2) noexcept;
 
-[[nodiscard]] constexpr Scalar lerp(const Vector3& start, const Vector3& end, Scalar prog) noexcept;
+[[nodiscard]] Vector3 lerp(const Vector3& start, const Vector3& end, Scalar prog) noexcept;
 
-[[nodiscard]] constexpr Vector3 reflect(const Vector3& incident, const Vector3& normal) noexcept;
+[[nodiscard]] Vector3 reflect(const Vector3& incident, const Vector3& normal) noexcept;
 
 using Vec3 = Vector3;
 
