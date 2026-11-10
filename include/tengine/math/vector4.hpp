@@ -48,7 +48,7 @@ struct Vector4
         return {-x, -y, -z, -w};
     }
 
-    [[nodiscard]] constexpr Vector4& operator+=(const Vector4& rhs) noexcept
+    constexpr Vector4& operator+=(const Vector4& rhs) noexcept
     {
         x += rhs.x;
         y += rhs.y;
@@ -57,7 +57,7 @@ struct Vector4
         return *this;
     }
 
-    [[nodiscard]] constexpr Vector4& operator-=(const Vector4& rhs) noexcept
+    constexpr Vector4& operator-=(const Vector4& rhs) noexcept
     {
         x -= rhs.x;
         y -= rhs.y;
@@ -66,7 +66,7 @@ struct Vector4
         return *this;
     }
 
-    [[nodiscard]] constexpr Vector4& operator*=(Scalar rhs) noexcept
+    constexpr Vector4& operator*=(Scalar rhs) noexcept
     {
         x *= rhs;
         y *= rhs;
@@ -75,7 +75,7 @@ struct Vector4
         return *this;
     }
 
-    [[nodiscard]] constexpr Vector4& operator/=(Scalar rhs) noexcept
+    constexpr Vector4& operator/=(Scalar rhs) noexcept
     {
         x /= rhs;
         y /= rhs;
@@ -116,12 +116,12 @@ struct Vector4
 }; // struct Vector4
 
 // Free operators
-[[nodiscard]] constexpr Vector4 operator+(Vector4 lhs, Vector4& rhs) noexcept
+[[nodiscard]] constexpr Vector4 operator+(Vector4 lhs, const Vector4& rhs) noexcept
 {
     return lhs += rhs;
 }
 
-[[nodiscard]] constexpr Vector4 operator-(Vector4 lhs, Vector4& rhs) noexcept
+[[nodiscard]] constexpr Vector4 operator-(Vector4 lhs, const Vector4& rhs) noexcept
 {
     return lhs -= rhs;
 }
