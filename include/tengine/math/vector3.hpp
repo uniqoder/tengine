@@ -119,7 +119,7 @@ struct Vector3
 
     [[nodiscard]] static constexpr Vector3 forward() noexcept
     {
-        return {0.F, 0.F, 1.F};
+        return {0.F, 0.F, -1.F};
     }
 
     friend constexpr bool operator==(const Vector3&, const Vector3&) noexcept = default;
