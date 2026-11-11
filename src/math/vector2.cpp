@@ -30,7 +30,8 @@ Scalar distance(const Vector2& vec1, const Vector2& vec2) noexcept
 
 Scalar angle(const Vector2& vec1, const Vector2& vec2) noexcept
 {
-    return std::acos(dot(vec1, vec2) / vec1.length() * vec2.length());
+    const Scalar cosine = dot(vec1, vec2) / (vec1.length() * vec2.length());
+    return std::acos(clamp(cosine, -1.F, 1.F));
 }
 
 Vector2 lerp(const Vector2& start, const Vector2& end, Scalar prog) noexcept

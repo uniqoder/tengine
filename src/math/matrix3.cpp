@@ -11,8 +11,8 @@ namespace tengine::math
 Scalar& Matrix3::operator()(int row, int column) noexcept
 {
     const int dim = 3;
-    assert(row < dim);
-    assert(column < dim);
+    assert(row >= 0 && row < dim);
+    assert(column >= 0 && column < dim);
 
     const size_t idx = size_t(row) * size_t(dim) + size_t(column);
     return elements[idx];
@@ -21,8 +21,8 @@ Scalar& Matrix3::operator()(int row, int column) noexcept
 const Scalar& Matrix3::operator()(int row, int column) const noexcept
 {
     const int dim = 3;
-    assert(row < dim);
-    assert(column < dim);
+    assert(row >= 0 && row < dim);
+    assert(column >= 0 && column < dim);
 
     const size_t idx = size_t(row) * size_t(dim) + size_t(column);
     return elements[idx];

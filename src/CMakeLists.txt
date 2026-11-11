@@ -1,5 +1,9 @@
 add_library(tengine STATIC
     core/engine.cpp
+    math/matrix3.cpp
+    math/vector2.cpp
+    math/vector3.cpp
+    math/vector4.cpp
 )
 
 add_library(tengine::tengine ALIAS tengine)

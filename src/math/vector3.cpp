@@ -30,7 +30,8 @@ Scalar distance(const Vector3& vec1, const Vector3& vec2) noexcept
 
 Scalar angle(const Vector3& vec1, const Vector3& vec2) noexcept
 {
-    return std::acos(dot(vec1, vec2) / vec1.length() * vec2.length());
+    const Scalar cosine = dot(vec1, vec2) / (vec1.length() * vec2.length());
+    return std::acos(clamp(cosine, -1.F, 1.F));
 }
 
 Vector3 lerp(const Vector3& start, const Vector3& end, Scalar prog) noexcept
@@ -50,7 +51,7 @@ Vector3 cross(const Vector3& vec1, const Vector3& vec2) noexcept
 Vector3 reflect(const Vector3& incident, const Vector3& normal) noexcept
 {
     const Vector3 normal_hat = normal.normalized();
-    return dot(incident, normal_hat) * normal_hat;
+    return incident - 2.F * dot(incident, normal_hat) * normal_hat;
 }
 
 }; // namespace tengine::math
