@@ -13,8 +13,8 @@
             "binaryDir": "${sourceDir}/build/debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "TBGE_BUILD_TESTS": "ON",
-                "TBGE_BUILD_EXAMPLES": "ON",
+                "TENGINE_BUILD_TESTS": "ON",
+                "TENGINE_BUILD_EXAMPLES": "ON",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
@@ -25,8 +25,8 @@
             "binaryDir": "${sourceDir}/build/release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "TBGE_BUILD_TESTS": "ON",
-                "TBGE_BUILD_EXAMPLES": "ON",
+                "TENGINE_BUILD_TESTS": "ON",
+                "TENGINE_BUILD_EXAMPLES": "ON",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         }
