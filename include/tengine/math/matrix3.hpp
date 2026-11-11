@@ -22,6 +22,11 @@ struct Matrix3
     {
     }
 
+    constexpr explicit Matrix3(const Vector3& diagonal) noexcept
+        : elements{diagonal.x, 0, 0, 0, diagonal.y, 0, 0, 0, diagonal.z}
+    {
+    }
+
     // Element access
     [[nodiscard]] Scalar& operator()(int row, int column) noexcept;
 
@@ -36,6 +41,35 @@ struct Matrix3
     [[nodiscard]] static constexpr Matrix3 zero() noexcept
     {
         return Matrix3(0);
+    }
+
+    [[nodiscard]] static constexpr Matrix3 rot_x_mat(Scalar angle) noexcept
+    {
+        Matrix3 rotation;
+        rotation.elements = {
+            1, 0, 0, 0, std::cos(angle), -std::sin(angle), 0, std::sin(angle), std::cos(angle)};
+        return rotation;
+    }
+
+    [[nodiscard]] static constexpr Matrix3 rot_y_mat(Scalar angle) noexcept
+    {
+        Matrix3 rotation;
+        rotation.elements = {std::cos(angle),  0, std::sin(angle), 0, 1, 0,
+                             -std::sin(angle), 0, std::cos(angle)};
+        return rotation;
+    }
+
+    [[nodiscard]] static constexpr Matrix3 rot_z_mat(Scalar angle) noexcept
+    {
+        Matrix3 rotation;
+        rotation.elements = {
+            std::cos(angle), -std::sin(angle), 0, std::sin(angle), std::cos(angle), 0, 0, 0, 1};
+        return rotation;
+    }
+
+    [[nodiscard]] static constexpr Matrix3 scale_mat(const Vector3& scale)
+    {
+        return Matrix3(scale);
     }
 
     // Matrix operations
