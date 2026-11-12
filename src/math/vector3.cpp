@@ -23,28 +23,28 @@ void Vector3::normalize() noexcept
     *this /= length();
 }
 
-Scalar distance(const Vector3& vec1, const Vector3& vec2) noexcept
+Scalar distance(const Vector3& a, const Vector3& b) noexcept
 {
-    return std::sqrt(square(vec2.x - vec1.x) + square(vec2.y - vec1.y) + square(vec2.z - vec1.z));
+    return std::sqrt(square(b.x - a.x) + square(b.y - a.y) + square(b.z - a.z));
 }
 
-Scalar angle(const Vector3& vec1, const Vector3& vec2) noexcept
+Scalar angle(const Vector3& a, const Vector3& b) noexcept
 {
-    const Scalar cosine = dot(vec1, vec2) / (vec1.length() * vec2.length());
+    const Scalar cosine = dot(a, b) / (a.length() * b.length());
     return std::acos(clamp(cosine, -1.F, 1.F));
 }
 
-Vector3 lerp(const Vector3& start, const Vector3& end, Scalar prog) noexcept
+Vector3 lerp(const Vector3& a, const Vector3& b, Scalar t) noexcept
 {
-    return start + (end - start) * prog;
+    return a + (b - a) * t;
 }
 
-Vector3 cross(const Vector3& vec1, const Vector3& vec2) noexcept
+Vector3 cross(const Vector3& a, const Vector3& b) noexcept
 {
     return {
-        vec1.y * vec2.z - vec2.y * vec1.z,
-        vec1.z * vec2.x - vec2.z * vec1.x,
-        vec1.x * vec2.y - vec2.x * vec1.y,
+        a.y * b.z - b.y * a.z,
+        a.z * b.x - b.z * a.x,
+        a.x * b.y - b.x * a.y,
     };
 }
 

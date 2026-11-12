@@ -9,7 +9,7 @@ namespace tengine::math
 using Scalar = float;
 
 // Constants
-inline constexpr Scalar Pi = 3.14159265358979323846f;
+inline constexpr Scalar Pi = 3.14159265358979323846F;
 inline constexpr Scalar TwoPi = 2.F * Pi;
 inline constexpr Scalar HalfPi = 0.5F * Pi;
 inline constexpr Scalar Epsilon = 1.0e-6F;
@@ -49,15 +49,14 @@ inline constexpr Scalar Infinity = std::numeric_limits<Scalar>::infinity();
     return clamp(value, 0.F, 1.F);
 }
 
-[[nodiscard]] constexpr Scalar lerp(Scalar start, Scalar end, Scalar prog) noexcept
+[[nodiscard]] constexpr Scalar lerp(Scalar a, Scalar b, Scalar t) noexcept
 {
-    return start + (end - start) * prog;
+    return a + (b - a) * t;
 }
 
-[[nodiscard]] constexpr bool nearly_equal(Scalar val1, Scalar val2,
-                                          Scalar epsilon = Epsilon) noexcept
+[[nodiscard]] constexpr bool nearly_equal(Scalar a, Scalar b, Scalar epsilon = Epsilon) noexcept
 {
-    return absolute(val1 - val2) <= epsilon;
+    return absolute(a - b) <= epsilon;
 }
 
 // Other utilities

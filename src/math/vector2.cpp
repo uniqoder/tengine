@@ -23,20 +23,20 @@ void Vector2::normalize() noexcept
     *this /= length();
 }
 
-Scalar distance(const Vector2& vec1, const Vector2& vec2) noexcept
+Scalar distance(const Vector2& a, const Vector2& b) noexcept
 {
-    return std::sqrt(square(vec2.x - vec1.x) + square(vec2.y - vec1.y));
+    return std::sqrt(square(b.x - a.x) + square(b.y - a.y));
 }
 
-Scalar angle(const Vector2& vec1, const Vector2& vec2) noexcept
+Scalar angle(const Vector2& a, const Vector2& b) noexcept
 {
-    const Scalar cosine = dot(vec1, vec2) / (vec1.length() * vec2.length());
+    const Scalar cosine = dot(a, b) / (a.length() * b.length());
     return std::acos(clamp(cosine, -1.F, 1.F));
 }
 
-Vector2 lerp(const Vector2& start, const Vector2& end, Scalar prog) noexcept
+Vector2 lerp(const Vector2& a, const Vector2& b, Scalar t) noexcept
 {
-    return start + (end - start) * prog;
+    return a + (b - a) * t;
 }
 
 }; // namespace tengine::math

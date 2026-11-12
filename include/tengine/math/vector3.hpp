@@ -93,7 +93,7 @@ struct Vector3
 
     [[nodiscard]] constexpr bool is_zero(Scalar epsilon = Epsilon) const noexcept
     {
-        return length_squared() <= epsilon * epsilon;
+        return nearly_equal(length_squared(), 0, epsilon * epsilon);
     }
 
     // Common vectors
@@ -152,18 +152,18 @@ struct Vector3
 }
 
 // Vector operations
-[[nodiscard]] constexpr Scalar dot(const Vector3& vec1, const Vector3& vec2) noexcept
+[[nodiscard]] constexpr Scalar dot(const Vector3& a, const Vector3& b) noexcept
 {
-    return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+    return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-[[nodiscard]] Vector3 cross(const Vector3& vec1, const Vector3& vec2) noexcept;
+[[nodiscard]] Vector3 cross(const Vector3& a, const Vector3& b) noexcept;
 
-[[nodiscard]] Scalar distance(const Vector3& vec1, const Vector3& vec2) noexcept;
+[[nodiscard]] Scalar distance(const Vector3& a, const Vector3& b) noexcept;
 
-[[nodiscard]] Scalar angle(const Vector3& vec1, const Vector3& vec2) noexcept;
+[[nodiscard]] Scalar angle(const Vector3& a, const Vector3& b) noexcept;
 
-[[nodiscard]] Vector3 lerp(const Vector3& start, const Vector3& end, Scalar prog) noexcept;
+[[nodiscard]] Vector3 lerp(const Vector3& a, const Vector3& b, Scalar t) noexcept;
 
 [[nodiscard]] Vector3 reflect(const Vector3& incident, const Vector3& normal) noexcept;
 

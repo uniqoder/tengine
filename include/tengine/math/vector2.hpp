@@ -80,7 +80,7 @@ struct Vector2
 
     [[nodiscard]] constexpr bool is_zero(Scalar epsilon = Epsilon) const noexcept
     {
-        return length_squared() <= epsilon * epsilon;
+        return nearly_equal(length_squared(), 0, epsilon * epsilon);
     }
 
     // Common vectors
@@ -134,16 +134,16 @@ struct Vector2
 }
 
 // Vector operations
-[[nodiscard]] constexpr Scalar dot(const Vector2& vec1, const Vector2& vec2) noexcept
+[[nodiscard]] constexpr Scalar dot(const Vector2& a, const Vector2& b) noexcept
 {
-    return vec1.x * vec2.x + vec1.y * vec2.y;
+    return a.x * b.x + a.y * b.y;
 }
 
-[[nodiscard]] Scalar distance(const Vector2& vec1, const Vector2& vec2) noexcept;
+[[nodiscard]] Scalar distance(const Vector2& a, const Vector2& b) noexcept;
 
-[[nodiscard]] Scalar angle(const Vector2& vec1, const Vector2& vec2) noexcept;
+[[nodiscard]] Scalar angle(const Vector2& a, const Vector2& b) noexcept;
 
-[[nodiscard]] Vector2 lerp(const Vector2& start, const Vector2& end, Scalar prog) noexcept;
+[[nodiscard]] Vector2 lerp(const Vector2& a, const Vector2& b, Scalar t) noexcept;
 
 using Vec2 = Vector2;
 

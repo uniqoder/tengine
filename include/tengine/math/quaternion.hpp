@@ -65,7 +65,6 @@ struct Quaternion
 // Quaternion utilities
 [[nodiscard]] Scalar dot(const Quaternion& q1, const Quaternion& q2) noexcept;
 
-[[nodiscard]] Quaternion slerp(const Quaternion& start, const Quaternion& end,
-                               Scalar prog) noexcept;
+[[nodiscard]] Quaternion slerp(const Quaternion& a, const Quaternion& b, Scalar t) noexcept;
 
 }; // namespace tengine::math
