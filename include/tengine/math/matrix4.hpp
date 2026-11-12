@@ -6,19 +6,45 @@
 #include "vector3.hpp"
 #include "vector4.hpp"
 
+namespace std
+{
+
+typedef std::array<std::array<tengine::math::Scalar, 4>, 4> array4;
+
+};
+
 namespace tengine::math
 {
 
 struct Matrix4
 {
+  private:
     static constexpr int element_count = 4 * 4;
     std::array<Scalar, element_count> elements{};
 
+  public:
     constexpr Matrix4() noexcept = default;
 
     constexpr explicit Matrix4(Scalar diagonal) noexcept
         : elements{diagonal, 0, 0, 0, 0, diagonal, 0, 0, 0, 0, diagonal, 0, 0, 0, 0, diagonal}
     {
+    }
+
+    constexpr Matrix4(const Vector4& diagonal) noexcept
+        : elements{diagonal.x, 0, 0,          0, 0, diagonal.y, 0, 0,
+                   0,          0, diagonal.z, 0, 0, 0,          0, diagonal.w}
+    {
+    }
+
+    constexpr Matrix4(const std::array4& elements) noexcept
+    {
+        for (size_t i = 0; i < 4; i++)
+        {
+            for (size_t j = 0; j < 4; j++)
+            {
+                this->elements[4 * i + j] = elements[i][j];
+            }
+        }
     }
 
     // Element access
@@ -31,15 +57,40 @@ struct Matrix4
 
     [[nodiscard]] static constexpr Matrix4 zero() noexcept;
 
-    [[nodiscard]] static Matrix4 translation(const Vector3& offset) noexcept;
+    [[nodiscard]] static constexpr Matrix4 translation(const Vector3& offset) noexcept
+    {
+        return std::array4(
+            {{0, 0, 0, offset.x}, {0, 0, 0, offset.y}, {0, 0, 0, offset.z}, {0, 0, 0, 1}});
+    }
 
-    [[nodiscard]] static Matrix4 scale(const Vector3& factors) noexcept;
+    [[nodiscard]] static constexpr Matrix4 rotation_x(Scalar angle) noexcept
+    {
+        return std::array4({{1.F, 0, 0, 0},
+                            {0, std::cos(angle), -std::sin(angle), 0},
+                            {0, std::sin(angle), std::cos(angle), 0},
+                            {0, 0, 0, 1.F}});
+    }
 
-    [[nodiscard]] static Matrix4 rotation_x(Scalar angle) noexcept;
+    [[nodiscard]] static constexpr Matrix4 rotation_y(Scalar angle) noexcept
+    {
+        return std::array4({{std::cos(angle), 0, std::sin(angle), 0},
+                            {0, 1.F, 0, 0},
+                            {-std::sin(angle), 0, std::cos(angle), 0},
+                            {0, 0, 0, 1.F}});
+    }
 
-    [[nodiscard]] static Matrix4 rotation_y(Scalar angle) noexcept;
+    [[nodiscard]] static constexpr Matrix4 rotation_z(Scalar angle) noexcept
+    {
+        return std::array4({{std::cos(angle), -std::sin(angle), 0, 0},
+                            {std::sin(angle), std::cos(angle), 0, 0},
+                            {0, 0, 1.F, 0},
+                            {0, 0, 0, 1.F}});
+    }
 
-    [[nodiscard]] static Matrix4 rotation_z(Scalar angle) noexcept;
+    [[nodiscard]] static constexpr Matrix4 scaling(const Vector3& scale)
+    {
+        return Vector4(scale.x, scale.y, scale.z, 1);
+    }
 
     // Projection
     [[nodiscard]] static Matrix4 perspective(Scalar vertical_fov, Scalar aspect_ratio,
