@@ -3,9 +3,17 @@
 #include <array>
 #include <cassert>
 #include <cmath>
+#include <cstddef>
 
 #include "scalar.hpp"
 #include "vector3.hpp"
+
+namespace std
+{
+
+typedef std::array<std::array<tengine::math::Scalar, 3>, 3> array3;
+
+};
 
 namespace tengine::math
 {
@@ -22,9 +30,20 @@ struct Matrix3
     {
     }
 
-    constexpr explicit Matrix3(const Vector3& diagonal) noexcept
+    constexpr Matrix3(const Vector3& diagonal) noexcept
         : elements{diagonal.x, 0, 0, 0, diagonal.y, 0, 0, 0, diagonal.z}
     {
+    }
+
+    constexpr Matrix3(const std::array3& elements) noexcept
+    {
+        for (size_t i = 0; i < 3; i++)
+        {
+            for (size_t j = 0; j < 3; j++)
+            {
+                this->elements[3 * i + j] = elements[i][j];
+            }
+        }
     }
 
     // Element access
@@ -43,31 +62,28 @@ struct Matrix3
         return Matrix3(0);
     }
 
-    [[nodiscard]] static constexpr Matrix3 rot_x_mat(Scalar angle) noexcept
+    [[nodiscard]] static constexpr Matrix3 rotation_x(Scalar angle) noexcept
     {
-        Matrix3 rotation;
-        rotation.elements = {
-            1, 0, 0, 0, std::cos(angle), -std::sin(angle), 0, std::sin(angle), std::cos(angle)};
-        return rotation;
+        return std::array3({{1.F, 0, 0},
+                            {0, std::cos(angle), -std::sin(angle)},
+                            {0, std::sin(angle), std::cos(angle)}});
     }
 
-    [[nodiscard]] static constexpr Matrix3 rot_y_mat(Scalar angle) noexcept
+    [[nodiscard]] static constexpr Matrix3 rotation_y(Scalar angle) noexcept
     {
-        Matrix3 rotation;
-        rotation.elements = {std::cos(angle),  0, std::sin(angle), 0, 1, 0,
-                             -std::sin(angle), 0, std::cos(angle)};
-        return rotation;
+        return std::array3({{std::cos(angle), 0, std::sin(angle)},
+                            {0, 1, 0},
+                            {-std::sin(angle), 0, std::cos(angle)}});
     }
 
-    [[nodiscard]] static constexpr Matrix3 rot_z_mat(Scalar angle) noexcept
+    [[nodiscard]] static constexpr Matrix3 rotation_z(Scalar angle) noexcept
     {
-        Matrix3 rotation;
-        rotation.elements = {
-            std::cos(angle), -std::sin(angle), 0, std::sin(angle), std::cos(angle), 0, 0, 0, 1};
-        return rotation;
+        return std::array3({{std::cos(angle), -std::sin(angle), 0},
+                            {std::sin(angle), std::cos(angle), 0},
+                            {0, 0, 1}});
     }
 
-    [[nodiscard]] static constexpr Matrix3 scale_mat(const Vector3& scale)
+    [[nodiscard]] static constexpr Matrix3 scaling(const Vector3& scale)
     {
         return Matrix3(scale);
     }
