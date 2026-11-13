@@ -1,5 +1,7 @@
 #include "tengine/math/matrix4.hpp"
 #include "tengine/math/scalar.hpp"
+#include "tengine/math/vector3.hpp"
+#include "tengine/math/vector4.hpp"
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
@@ -112,8 +114,19 @@ Matrix4 Matrix4::inverse() const noexcept
     return I;
 }
 
-// Arithmatic
+// Transformations
+Vector3 Matrix4::transform_point(const Vector3& point) const noexcept
+{
+    Matrix4 point_transformer = *this;
+    point_transformer(3, 3) = 1.F;
 
+    Vector4 v4_point{point, 0};
+
+    Vector4 transformed_point = point_transformer * v4_point;
+    return transformed_point.xyz();
+}
+
+// Arithmatic
 Matrix4 Matrix4::operator*(Scalar rhs) const noexcept
 {
     Matrix4 result = *this;
