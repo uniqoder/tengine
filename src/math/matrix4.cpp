@@ -28,6 +28,24 @@ const Scalar& Matrix4::operator()(int row, int column) const noexcept
     return elements[idx];
 }
 
+// Matrix operations
+Matrix4 Matrix4::transposed() const noexcept
+{
+    Matrix4 trans;
+
+    const int dim = 4;
+    for (int i = 0; i < dim; i++)
+    {
+        for (int j = 0; j < dim; j++)
+        {
+            trans(i, j) = (*this)(j, i);
+            trans(j, i) = (*this)(i, j);
+        }
+    }
+
+    return trans;
+}
+
 // Arithmatic
 
 Matrix4 Matrix4::operator*(Scalar rhs) const noexcept
