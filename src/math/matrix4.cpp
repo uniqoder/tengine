@@ -120,7 +120,7 @@ Vector3 Matrix4::transform_point(const Vector3& point) const noexcept
     Matrix4 point_transformer = *this;
     point_transformer(3, 3) = 1.F;
 
-    Vector4 v4_point{point, 0};
+    Vector4 v4_point{point, 1.F};
 
     Vector4 transformed_point = point_transformer * v4_point;
     return transformed_point.xyz();
@@ -131,7 +131,7 @@ Vector3 Matrix4::transform_vector(const Vector3& vector) const noexcept
     Matrix4 vector_transformer = *this;
     vector_transformer(3, 3) = 0;
 
-    Vector4 v4_vector{vector, 0};
+    Vector4 v4_vector{vector, 1.F};
 
     Vector4 transformed_vector = vector_transformer * v4_vector;
     return transformed_vector.xyz();
