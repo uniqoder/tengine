@@ -46,6 +46,72 @@ Matrix4 Matrix4::transposed() const noexcept
     return trans;
 }
 
+Matrix4 Matrix4::inverse() const noexcept
+{
+    Matrix4 A = *this;
+    Matrix4 I = identity();
+
+    int dim = 4;
+    for (int i = 0; i < dim; i++)
+    {
+        // Find row with largest absolute value at pivot
+        int pivotRow = i;
+        for (int k = i + 1; k < dim; k++)
+        {
+            if (std::abs(A(k, i)) > std::abs(A(pivotRow, i)))
+            {
+                pivotRow = k;
+            }
+        }
+
+        // Check matrix is not singular
+        assert(!nearly_equal(std::abs(A(pivotRow, i)), 0));
+
+        // Swap current row with pivot row
+        if (pivotRow != i)
+        {
+            for (int j = 0; j < dim; j++)
+            {
+                // Swap elements of A
+                Scalar tmp = A(i, j);
+                A(i, j) = A(pivotRow, j);
+                A(pivotRow, j) = tmp;
+
+                // Swap elements of I
+                tmp = I(i, j);
+                I(i, j) = I(pivotRow, j);
+                I(pivotRow, j) = tmp;
+            }
+        }
+
+        // Scale pivot row to make pivot element 1
+        Scalar pivot = A(i, i);
+        for (int j = 0; j < dim; j++)
+        {
+            A(i, j) /= pivot;
+            I(i, j) /= pivot;
+        }
+
+        // Eliminate all other values in column i
+        for (int k = 0; k < dim; k++)
+        {
+            if (k == i)
+            {
+                continue;
+            }
+
+            Scalar factor = A(k, i);
+            for (int j = 0; j < dim; j++)
+            {
+                A(k, j) -= factor * A(i, j);
+                I(k, j) -= factor * I(i, j);
+            }
+        }
+    }
+
+    return I;
+}
+
 // Arithmatic
 
 Matrix4 Matrix4::operator*(Scalar rhs) const noexcept
