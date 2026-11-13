@@ -45,6 +45,22 @@ Matrix4 Matrix4::perspective(Scalar vertical_fov, Scalar aspect_ratio, Scalar ne
                         {0, 0, -1, 0}});
 }
 
+Matrix4 Matrix4::orthographic(Scalar left, Scalar right, Scalar bottom, Scalar top,
+                              Scalar near_plane, Scalar far_plane) noexcept
+{
+    const Scalar rl_diff = right - left;
+    const Scalar rl_sum = right + left;
+    const Scalar tb_diff = top - bottom;
+    const Scalar tb_sum = top + bottom;
+    const Scalar fn_diff = far_plane - near_plane;
+    const Scalar fn_sum = far_plane + near_plane;
+
+    return std::array4({{2 / rl_diff, 0, 0, -rl_sum / rl_diff},
+                        {0, 2 / tb_diff, 0, -tb_sum / tb_diff},
+                        {0, 0, -2 / fn_diff, -fn_sum / fn_diff},
+                        {0, 0, 0, 1}});
+}
+
 // Matrix operations
 Matrix4 Matrix4::transposed() const noexcept
 {
