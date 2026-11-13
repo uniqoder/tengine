@@ -30,6 +30,21 @@ const Scalar& Matrix4::operator()(int row, int column) const noexcept
     return elements[idx];
 }
 
+// Projection
+
+Matrix4 Matrix4::perspective(Scalar vertical_fov, Scalar aspect_ratio, Scalar near_plane,
+                             Scalar far_plane) noexcept
+{
+    const Scalar tan_half_fov = std::tan(vertical_fov / Scalar(2));
+    const Scalar fn_sum = far_plane + near_plane;
+    const Scalar fn_diff = far_plane - near_plane;
+    const Scalar fn_prod = far_plane * near_plane;
+    return std::array4({{1 / (aspect_ratio * tan_half_fov), 0, 0, 0},
+                        {0, 1 / tan_half_fov, 0, 0},
+                        {0, 0, -fn_sum / fn_diff, -2 * fn_prod / fn_diff},
+                        {0, 0, -1, 0}});
+}
+
 // Matrix operations
 Matrix4 Matrix4::transposed() const noexcept
 {
