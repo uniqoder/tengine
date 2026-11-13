@@ -53,9 +53,15 @@ struct Matrix4
     [[nodiscard]] const Scalar& operator()(int row, int column) const noexcept;
 
     // Factory methods //
-    [[nodiscard]] static constexpr Matrix4 identity() noexcept;
+    [[nodiscard]] static constexpr Matrix4 identity() noexcept
+    {
+        return Matrix4(1);
+    }
 
-    [[nodiscard]] static constexpr Matrix4 zero() noexcept;
+    [[nodiscard]] static constexpr Matrix4 zero() noexcept
+    {
+        return Matrix4(0);
+    }
 
     [[nodiscard]] static constexpr Matrix4 translation(const Vector3& offset) noexcept
     {
