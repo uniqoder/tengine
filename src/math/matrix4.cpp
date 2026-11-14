@@ -166,24 +166,31 @@ Matrix4 Matrix4::inverse() const noexcept
 // Transformations
 Vector3 Matrix4::transform_point(const Vector3& point) const noexcept
 {
-    Matrix4 point_transformer = *this;
-    point_transformer(3, 3) = 1.F;
+    Vector4 coords{point, 1.F};
 
-    Vector4 v4_point{point, 1.F};
-
-    Vector4 transformed_point = point_transformer * v4_point;
-    return transformed_point.xyz();
+    Vector4 transformed_coords = *this * coords;
+    return transformed_coords.xyz();
 }
 
 Vector3 Matrix4::transform_vector(const Vector3& vector) const noexcept
 {
-    Matrix4 vector_transformer = *this;
-    vector_transformer(3, 3) = 0;
+    Vector4 coords{vector, 0};
 
-    Vector4 v4_vector{vector, 1.F};
+    Vector4 transformed_coords = *this * coords;
+    return transformed_coords.xyz();
+}
 
-    Vector4 transformed_vector = vector_transformer * v4_vector;
-    return transformed_vector.xyz();
+// Camera
+Matrix4 Matrix4::look_at(const Vector3& eye, const Vector3& target, const Vector3& up) noexcept
+{
+    const Vector3 F = (target - eye).normalized();
+    const Vector3 R = cross(F, up).normalized();
+    const Vector3 U = cross(R, F);
+
+    return std::array4({{R.x, R.y, R.z, dot(-R, eye)},
+                        {U.x, U.y, U.z, dot(-U, eye)},
+                        {-F.x, -F.y, -F.z, dot(F, eye)},
+                        {0, 0, 0, 1}});
 }
 
 // Arithmatic
