@@ -65,32 +65,32 @@ struct Matrix4
 
     [[nodiscard]] static constexpr Matrix4 translation(const Vector3& offset) noexcept
     {
-        return std::array4(
-            {{0, 0, 0, offset.x}, {0, 0, 0, offset.y}, {0, 0, 0, offset.z}, {0, 0, 0, 1}});
+        return Matrix4(
+            {{{0, 0, 0, offset.x}, {0, 0, 0, offset.y}, {0, 0, 0, offset.z}, {0, 0, 0, 1}}});
     }
 
     [[nodiscard]] static constexpr Matrix4 rotation_x(Scalar angle) noexcept
     {
-        return std::array4({{1.F, 0, 0, 0},
-                            {0, std::cos(angle), -std::sin(angle), 0},
-                            {0, std::sin(angle), std::cos(angle), 0},
-                            {0, 0, 0, 1.F}});
+        return Matrix4({{{1.F, 0, 0, 0},
+                         {0, std::cos(angle), -std::sin(angle), 0},
+                         {0, std::sin(angle), std::cos(angle), 0},
+                         {0, 0, 0, 1.F}}});
     }
 
     [[nodiscard]] static constexpr Matrix4 rotation_y(Scalar angle) noexcept
     {
-        return std::array4({{std::cos(angle), 0, std::sin(angle), 0},
-                            {0, 1.F, 0, 0},
-                            {-std::sin(angle), 0, std::cos(angle), 0},
-                            {0, 0, 0, 1.F}});
+        return Matrix4({{{std::cos(angle), 0, std::sin(angle), 0},
+                         {0, 1.F, 0, 0},
+                         {-std::sin(angle), 0, std::cos(angle), 0},
+                         {0, 0, 0, 1.F}}});
     }
 
     [[nodiscard]] static constexpr Matrix4 rotation_z(Scalar angle) noexcept
     {
-        return std::array4({{std::cos(angle), -std::sin(angle), 0, 0},
-                            {std::sin(angle), std::cos(angle), 0, 0},
-                            {0, 0, 1.F, 0},
-                            {0, 0, 0, 1.F}});
+        return Matrix4({{{std::cos(angle), -std::sin(angle), 0, 0},
+                         {std::sin(angle), std::cos(angle), 0, 0},
+                         {0, 0, 1.F, 0},
+                         {0, 0, 0, 1.F}}});
     }
 
     [[nodiscard]] static constexpr Matrix4 scaling(const Vector3& scale)

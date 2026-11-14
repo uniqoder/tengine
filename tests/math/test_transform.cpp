@@ -36,7 +36,7 @@ TEST_CASE("Transform matrix composition", "[math][transform]")
     transform.scale = Vector3{2.F, 3.F, 4.F};
 
     const Matrix4 expected = Matrix4::translation(transform.position) *
-                             transform.rotation.to_matrix4() * Matrix4::scale(transform.scale);
+                             transform.rotation.to_matrix4() * Matrix4::scaling(transform.scale);
 
     require_equal(transform.matrix(), expected);
 

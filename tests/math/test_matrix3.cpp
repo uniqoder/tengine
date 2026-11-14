@@ -21,8 +21,7 @@ TEST_CASE("Matrix3 construction", "[math][matrix3]")
     {
         const Matrix3 matrix(2.F);
 
-        Matrix3 expected;
-        expected.elements = {2.F, 0.F, 0.F, 0.F, 2.F, 0.F, 0.F, 0.F, 2.F};
+        Matrix3 expected({{{2.F, 0.F, 0.F}, {0.F, 2.F, 0.F}, {0.F, 0.F, 2.F}}});
         require_equal(matrix, expected);
     }
 
@@ -30,15 +29,13 @@ TEST_CASE("Matrix3 construction", "[math][matrix3]")
     {
         const Matrix3 matrix(Vector3{2.F, 3.F, 4.F});
 
-        Matrix3 expected;
-        expected.elements = {2.F, 0.F, 0.F, 0.F, 3.F, 0.F, 0.F, 0.F, 4.F};
+        Matrix3 expected({{{2.F, 0.F, 0.F}, {0.F, 3.F, 0.F}, {0.F, 0.F, 4.F}}});
         require_equal(matrix, expected);
     }
 
     SECTION("identity and zero")
     {
-        Matrix3 expected_identity;
-        expected_identity.elements = {1.F, 0.F, 0.F, 0.F, 1.F, 0.F, 0.F, 0.F, 1.F};
+        Matrix3 expected_identity({{{1.F, 0.F, 0.F}, {0.F, 1.F, 0.F}, {0.F, 0.F, 1.F}}});
 
         require_equal(Matrix3::identity(), expected_identity);
         require_equal(Matrix3::zero(), Matrix3(0.F));
@@ -78,41 +75,37 @@ TEST_CASE("Matrix3 rotation factories", "[math][matrix3]")
 {
     SECTION("zero angle produces identity")
     {
-        require_equal(Matrix3::rot_x_mat(0.F), Matrix3::identity());
-        require_equal(Matrix3::rot_y_mat(0.F), Matrix3::identity());
-        require_equal(Matrix3::rot_z_mat(0.F), Matrix3::identity());
+        require_equal(Matrix3::rotation_x(0.F), Matrix3::identity());
+        require_equal(Matrix3::rotation_y(0.F), Matrix3::identity());
+        require_equal(Matrix3::rotation_z(0.F), Matrix3::identity());
     }
 
     SECTION("rotation matrices at ninety degrees")
     {
-        Matrix3 expected_x;
-        expected_x.elements = {1.F, 0.F, 0.F, 0.F, 0.F, -1.F, 0.F, 1.F, 0.F};
-        require_equal(Matrix3::rot_x_mat(HalfPi), expected_x);
+        Matrix3 expected_x({{{1.F, 0.F, 0.F}, {0.F, 0.F, -1.F}, {0.F, 1.F, 0.F}}});
+        require_equal(Matrix3::rotation_x(HalfPi), expected_x);
 
-        Matrix3 expected_y;
-        expected_y.elements = {0.F, 0.F, 1.F, 0.F, 1.F, 0.F, -1.F, 0.F, 0.F};
-        require_equal(Matrix3::rot_y_mat(HalfPi), expected_y);
+        Matrix3 expected_y({{{0.F, 0.F, 1.F}, {0.F, 1.F, 0.F}, {-1.F, 0.F, 0.F}}});
+        require_equal(Matrix3::rotation_y(HalfPi), expected_y);
 
-        Matrix3 expected_z;
-        expected_z.elements = {0.F, -1.F, 0.F, 1.F, 0.F, 0.F, 0.F, 0.F, 1.F};
-        require_equal(Matrix3::rot_z_mat(HalfPi), expected_z);
+        Matrix3 expected_z({{{0.F, -1.F, 0.F}, {1.F, 0.F, 0.F}, {0.F, 0.F, 1.F}}});
+        require_equal(Matrix3::rotation_z(HalfPi), expected_z);
     }
 
     SECTION("rotation of basis vectors")
     {
-        require_equal(Matrix3::rot_z_mat(HalfPi) * Vector3::right(), Vector3::up());
-        require_equal(Matrix3::rot_x_mat(HalfPi) * Vector3::up(), Vector3{0.F, 0.F, 1.F});
-        require_equal(Matrix3::rot_y_mat(HalfPi) * Vector3::forward(), Vector3{-1.F, 0.F, 0.F});
-        require_equal(Matrix3::rot_z_mat(Pi) * Vector3::right(), Vector3{-1.F, 0.F, 0.F});
+        require_equal(Matrix3::rotation_z(HalfPi) * Vector3::right(), Vector3::up());
+        require_equal(Matrix3::rotation_x(HalfPi) * Vector3::up(), Vector3{0.F, 0.F, 1.F});
+        require_equal(Matrix3::rotation_y(HalfPi) * Vector3::forward(), Vector3{-1.F, 0.F, 0.F});
+        require_equal(Matrix3::rotation_z(Pi) * Vector3::right(), Vector3{-1.F, 0.F, 0.F});
     }
 }
 
 TEST_CASE("Matrix3 scale factory", "[math][matrix3]")
 {
-    const Matrix3 scale = Matrix3::scale_mat(Vector3{2.F, 3.F, 4.F});
+    const Matrix3 scale = Matrix3::scaling(Vector3{2.F, 3.F, 4.F});
 
-    Matrix3 expected;
-    expected.elements = {2.F, 0.F, 0.F, 0.F, 3.F, 0.F, 0.F, 0.F, 4.F};
+    Matrix3 expected({{{2.F, 0.F, 0.F}, {0.F, 3.F, 0.F}, {0.F, 0.F, 4.F}}});
     require_equal(scale, expected);
 
     require_equal(scale * Vector3{1.F, 1.F, 1.F}, Vector3{2.F, 3.F, 4.F});
@@ -121,8 +114,7 @@ TEST_CASE("Matrix3 scale factory", "[math][matrix3]")
 
 TEST_CASE("Matrix3 transpose", "[math][matrix3]")
 {
-    Matrix3 matrix;
-    matrix.elements = {1.F, 2.F, 3.F, 4.F, 5.F, 6.F, 7.F, 8.F, 9.F};
+    Matrix3 matrix({{{1.F, 2.F, 3.F}, {4.F, 5.F, 6.F}, {7.F, 8.F, 9.F}}});
 
     const Matrix3 transposed = matrix.transposed();
 
@@ -143,16 +135,13 @@ TEST_CASE("Matrix3 determinant", "[math][matrix3]")
     REQUIRE(Matrix3::identity().determinant() == approx(1.F));
     REQUIRE(Matrix3::zero().determinant() == approx(0.F));
 
-    Matrix3 diagonal;
-    diagonal.elements = {2.F, 0.F, 0.F, 0.F, 3.F, 0.F, 0.F, 0.F, 4.F};
+    Matrix3 diagonal({{{2.F, 0.F, 0.F}, {0.F, 3.F, 0.F}, {0.F, 0.F, 4.F}}});
     REQUIRE(diagonal.determinant() == approx(24.F));
 
-    Matrix3 matrix;
-    matrix.elements = {1.F, 2.F, 3.F, 0.F, 1.F, 4.F, 5.F, 6.F, 0.F};
+    Matrix3 matrix({{{1.F, 2.F, 3.F}, {0.F, 1.F, 4.F}, {5.F, 6.F, 0.F}}});
     REQUIRE(matrix.determinant() == approx(1.F));
 
-    Matrix3 singular;
-    singular.elements = {1.F, 2.F, 3.F, 4.F, 5.F, 6.F, 7.F, 8.F, 9.F};
+    Matrix3 singular({{{1.F, 2.F, 3.F}, {4.F, 5.F, 6.F}, {7.F, 8.F, 9.F}}});
     REQUIRE(singular.determinant() == approx(0.F));
 }
 
@@ -165,18 +154,15 @@ TEST_CASE("Matrix3 inverse", "[math][matrix3]")
 
     SECTION("diagonal")
     {
-        Matrix3 diagonal;
-        diagonal.elements = {2.F, 0.F, 0.F, 0.F, 4.F, 0.F, 0.F, 0.F, 8.F};
+        Matrix3 diagonal({{{2.F, 0.F, 0.F}, {0.F, 4.F, 0.F}, {0.F, 0.F, 8.F}}});
 
-        Matrix3 expected;
-        expected.elements = {0.5F, 0.F, 0.F, 0.F, 0.25F, 0.F, 0.F, 0.F, 0.125F};
+        Matrix3 expected({{{0.5F, 0.F, 0.F}, {0.F, 0.25F, 0.F}, {0.F, 0.F, 0.125F}}});
         require_equal(diagonal.inverse(), expected);
     }
 
     SECTION("general matrix")
     {
-        Matrix3 matrix;
-        matrix.elements = {1.F, 2.F, 3.F, 0.F, 1.F, 4.F, 5.F, 6.F, 0.F};
+        Matrix3 matrix({{{1.F, 2.F, 3.F}, {0.F, 1.F, 4.F}, {5.F, 6.F, 0.F}}});
 
         const Matrix3 inverse = matrix.inverse();
 
@@ -186,10 +172,10 @@ TEST_CASE("Matrix3 inverse", "[math][matrix3]")
 
     SECTION("rotation")
     {
-        const Matrix3 rotation = Matrix3::rot_z_mat(Pi / 3.F);
+        const Matrix3 rotation = Matrix3::rotation_z(Pi / 3.F);
 
         require_equal(rotation.inverse(), rotation.transposed());
-        require_equal(rotation.inverse(), Matrix3::rot_z_mat(-Pi / 3.F));
+        require_equal(rotation.inverse(), Matrix3::rotation_z(-Pi / 3.F));
     }
 }
 
@@ -197,15 +183,13 @@ TEST_CASE("Matrix3 arithmetic", "[math][matrix3]")
 {
     const Matrix3 matrix = []
     {
-        Matrix3 result;
-        result.elements = {1.F, 2.F, 3.F, 4.F, 5.F, 6.F, 7.F, 8.F, 9.F};
+        Matrix3 result({{{1.F, 2.F, 3.F}, {4.F, 5.F, 6.F}, {7.F, 8.F, 9.F}}});
         return result;
     }();
 
     SECTION("scalar multiplication")
     {
-        Matrix3 expected;
-        expected.elements = {2.F, 4.F, 6.F, 8.F, 10.F, 12.F, 14.F, 16.F, 18.F};
+        Matrix3 expected({{{2.F, 4.F, 6.F}, {8.F, 10.F, 12.F}, {14.F, 16.F, 18.F}}});
         require_equal(matrix * 2.F, expected);
     }
 
@@ -216,11 +200,9 @@ TEST_CASE("Matrix3 arithmetic", "[math][matrix3]")
 
     SECTION("matrix multiplication")
     {
-        Matrix3 rhs;
-        rhs.elements = {9.F, 8.F, 7.F, 6.F, 5.F, 4.F, 3.F, 2.F, 1.F};
+        Matrix3 rhs({{{9.F, 8.F, 7.F}, {6.F, 5.F, 4.F}, {3.F, 2.F, 1.F}}});
 
-        Matrix3 expected;
-        expected.elements = {30.F, 24.F, 18.F, 84.F, 69.F, 54.F, 138.F, 114.F, 90.F};
+        Matrix3 expected({{{30.F, 24.F, 18.F}, {84.F, 69.F, 54.F}, {138.F, 114.F, 90.F}}});
         require_equal(matrix * rhs, expected);
 
         require_equal(matrix * Matrix3::identity(), matrix);
@@ -231,12 +213,10 @@ TEST_CASE("Matrix3 arithmetic", "[math][matrix3]")
     {
         const Matrix3 other = Matrix3::identity();
 
-        Matrix3 expected_sum;
-        expected_sum.elements = {2.F, 2.F, 3.F, 4.F, 6.F, 6.F, 7.F, 8.F, 10.F};
+        Matrix3 expected_sum({{{2.F, 2.F, 3.F}, {4.F, 6.F, 6.F}, {7.F, 8.F, 10.F}}});
         require_equal(matrix + other, expected_sum);
 
-        Matrix3 expected_difference;
-        expected_difference.elements = {0.F, 2.F, 3.F, 4.F, 4.F, 6.F, 7.F, 8.F, 8.F};
+        Matrix3 expected_difference({{{0.F, 2.F, 3.F}, {4.F, 4.F, 6.F}, {7.F, 8.F, 8.F}}});
         require_equal(matrix - other, expected_difference);
     }
 }

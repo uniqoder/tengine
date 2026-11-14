@@ -28,17 +28,19 @@ TEST_CASE("Matrix4 construction", "[math][matrix4]")
     {
         const Matrix4 matrix(2.F);
 
-        Matrix4 expected;
-        expected.elements = {2.F, 0.F, 0.F, 0.F, 0.F, 2.F, 0.F, 0.F,
-                             0.F, 0.F, 2.F, 0.F, 0.F, 0.F, 0.F, 2.F};
+        Matrix4 expected({{{2.F, 0.F, 0.F, 0.F},
+                           {0.F, 2.F, 0.F, 0.F},
+                           {0.F, 0.F, 2.F, 0.F},
+                           {0.F, 0.F, 0.F, 2.F}}});
         require_equal(matrix, expected);
     }
 
     SECTION("identity and zero")
     {
-        Matrix4 expected_identity;
-        expected_identity.elements = {1.F, 0.F, 0.F, 0.F, 0.F, 1.F, 0.F, 0.F,
-                                      0.F, 0.F, 1.F, 0.F, 0.F, 0.F, 0.F, 1.F};
+        Matrix4 expected_identity({{{1.F, 0.F, 0.F, 0.F},
+                                    {0.F, 1.F, 0.F, 0.F},
+                                    {0.F, 0.F, 1.F, 0.F},
+                                    {0.F, 0.F, 0.F, 1.F}}});
 
         require_equal(Matrix4::identity(), expected_identity);
         require_equal(Matrix4::zero(), Matrix4(0.F));
@@ -87,7 +89,7 @@ TEST_CASE("Matrix4 translation", "[math][matrix4]")
 
 TEST_CASE("Matrix4 scale", "[math][matrix4]")
 {
-    const Matrix4 scale = Matrix4::scale(Vector3{2.F, 3.F, 4.F});
+    const Matrix4 scale = Matrix4::scaling(Vector3{2.F, 3.F, 4.F});
 
     Matrix4 expected = Matrix4::identity();
     expected(0, 0) = 2.F;
@@ -134,7 +136,7 @@ TEST_CASE("Matrix4 rotation factories", "[math][matrix4]")
 TEST_CASE("Matrix4 composition", "[math][matrix4]")
 {
     const Matrix4 model = Matrix4::translation(Vector3{5.F, 0.F, 0.F}) *
-                          Matrix4::rotation_z(HalfPi) * Matrix4::scale(Vector3{2.F, 2.F, 2.F});
+                          Matrix4::rotation_z(HalfPi) * Matrix4::scaling(Vector3{2.F, 2.F, 2.F});
 
     require_equal(model.transform_point(Vector3{1.F, 0.F, 0.F}), Vector3{5.F, 2.F, 0.F});
     require_equal(model.transform_vector(Vector3{1.F, 0.F, 0.F}), Vector3{0.F, 2.F, 0.F});
@@ -232,7 +234,7 @@ TEST_CASE("Matrix4 determinant", "[math][matrix4]")
     REQUIRE(Matrix4::identity().determinant() == approx(1.F));
     REQUIRE(Matrix4::zero().determinant() == approx(0.F));
     REQUIRE(Matrix4::translation(Vector3{1.F, 2.F, 3.F}).determinant() == approx(1.F));
-    REQUIRE(Matrix4::scale(Vector3{2.F, 3.F, 4.F}).determinant() == approx(24.F));
+    REQUIRE(Matrix4::scaling(Vector3{2.F, 3.F, 4.F}).determinant() == approx(24.F));
     REQUIRE(Matrix4::rotation_z(Pi / 3.F).determinant() == approx(1.F));
 }
 
@@ -246,8 +248,8 @@ TEST_CASE("Matrix4 inverse", "[math][matrix4]")
 
     SECTION("scale")
     {
-        const Matrix4 scale = Matrix4::scale(Vector3{2.F, 4.F, 8.F});
-        require_equal(scale.inverse(), Matrix4::scale(Vector3{0.5F, 0.25F, 0.125F}));
+        const Matrix4 scale = Matrix4::scaling(Vector3{2.F, 4.F, 8.F});
+        require_equal(scale.inverse(), Matrix4::scaling(Vector3{0.5F, 0.25F, 0.125F}));
     }
 
     SECTION("rotation")
@@ -260,7 +262,7 @@ TEST_CASE("Matrix4 inverse", "[math][matrix4]")
     {
         const Matrix4 model = Matrix4::translation(Vector3{1.F, 2.F, 3.F}) *
                               Matrix4::rotation_z(Pi / 3.F) *
-                              Matrix4::scale(Vector3{2.F, 3.F, 4.F});
+                              Matrix4::scaling(Vector3{2.F, 3.F, 4.F});
 
         require_equal(model * model.inverse(), Matrix4::identity());
         require_equal(model.inverse() * model, Matrix4::identity());
@@ -288,14 +290,14 @@ TEST_CASE("Matrix4 arithmetic", "[math][matrix4]")
         const Matrix4 translation = Matrix4::translation(Vector3{1.F, 2.F, 3.F});
         require_equal(translation * Vector4{1.F, 2.F, 3.F, 1.F}, Vector4{2.F, 4.F, 6.F, 1.F});
 
-        const Matrix4 scale = Matrix4::scale(Vector3{2.F, 3.F, 4.F});
+        const Matrix4 scale = Matrix4::scaling(Vector3{2.F, 3.F, 4.F});
         require_equal(scale * Vector4{1.F, 2.F, 3.F, 1.F}, Vector4{2.F, 6.F, 12.F, 1.F});
     }
 
     SECTION("matrix multiplication order")
     {
         const Matrix4 translation = Matrix4::translation(Vector3{1.F, 0.F, 0.F});
-        const Matrix4 scale = Matrix4::scale(Vector3{2.F, 2.F, 2.F});
+        const Matrix4 scale = Matrix4::scaling(Vector3{2.F, 2.F, 2.F});
 
         require_equal((translation * scale).transform_point(Vector3{1.F, 0.F, 0.F}),
                       Vector3{3.F, 0.F, 0.F});

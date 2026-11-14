@@ -69,7 +69,7 @@ struct Vector2
     // Magnitude
     [[nodiscard]] Scalar length() const noexcept;
 
-    [[nodiscard]] Scalar length_squared() const noexcept
+    [[nodiscard]] constexpr Scalar length_squared() const noexcept
     {
         return square(x) + square(y);
     }

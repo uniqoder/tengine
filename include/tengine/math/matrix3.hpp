@@ -20,9 +20,11 @@ namespace tengine::math
 
 struct Matrix3
 {
+  private:
     static constexpr int element_count = 3 * 3;
     std::array<Scalar, element_count> elements{};
 
+  public:
     constexpr Matrix3() noexcept = default;
 
     constexpr explicit Matrix3(Scalar diagonal) noexcept
@@ -64,23 +66,23 @@ struct Matrix3
 
     [[nodiscard]] static constexpr Matrix3 rotation_x(Scalar angle) noexcept
     {
-        return std::array3({{1.F, 0, 0},
-                            {0, std::cos(angle), -std::sin(angle)},
-                            {0, std::sin(angle), std::cos(angle)}});
+        return Matrix3({{{1.F, 0, 0},
+                         {0, std::cos(angle), -std::sin(angle)},
+                         {0, std::sin(angle), std::cos(angle)}}});
     }
 
     [[nodiscard]] static constexpr Matrix3 rotation_y(Scalar angle) noexcept
     {
-        return std::array3({{std::cos(angle), 0, std::sin(angle)},
-                            {0, 1, 0},
-                            {-std::sin(angle), 0, std::cos(angle)}});
+        return Matrix3({{{std::cos(angle), 0, std::sin(angle)},
+                         {0, 1, 0},
+                         {-std::sin(angle), 0, std::cos(angle)}}});
     }
 
     [[nodiscard]] static constexpr Matrix3 rotation_z(Scalar angle) noexcept
     {
-        return std::array3({{std::cos(angle), -std::sin(angle), 0},
-                            {std::sin(angle), std::cos(angle), 0},
-                            {0, 0, 1}});
+        return Matrix3({{{std::cos(angle), -std::sin(angle), 0},
+                         {std::sin(angle), std::cos(angle), 0},
+                         {0, 0, 1}}});
     }
 
     [[nodiscard]] static constexpr Matrix3 scaling(const Vector3& scale)

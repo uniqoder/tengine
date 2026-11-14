@@ -1,5 +1,5 @@
 // These tests assume right-handed rotations, column vectors, and the same
-// rotation conventions as Matrix3::rot_x_mat / rot_y_mat / rot_z_mat.
+// rotation conventions as Matrix3::rotation_x / rotation_y / rotation_z.
 // Quaternions are stored as (w, x, y, z) and represent unit rotations. All
 // angles are in radians. from_euler takes angles around the X, Y and Z axes;
 // the exact composition order is not asserted, only round-tripping and
@@ -100,7 +100,7 @@ TEST_CASE("Quaternion from_euler", "[math][quaternion]")
 TEST_CASE("Quaternion from_rotation_matrix", "[math][quaternion]")
 {
     const Matrix3 rotation =
-        Matrix3::rot_z_mat(0.3F) * Matrix3::rot_y_mat(-0.4F) * Matrix3::rot_x_mat(0.5F);
+        Matrix3::rotation_z(0.3F) * Matrix3::rotation_y(-0.4F) * Matrix3::rotation_x(0.5F);
 
     const Quaternion quaternion = Quaternion::from_rotation_matrix(rotation);
 
@@ -152,7 +152,7 @@ TEST_CASE("Quaternion matrix conversion", "[math][quaternion]")
 {
     const Quaternion rotation = Quaternion::from_axis_angle(Vector3::up(), HalfPi);
 
-    require_equal(rotation.to_matrix3(), Matrix3::rot_y_mat(HalfPi));
+    require_equal(rotation.to_matrix3(), Matrix3::rotation_y(HalfPi));
     require_equal(rotation.to_matrix4(), Matrix4::rotation_y(HalfPi));
 
     const Vector3 vector{1.F, 2.F, 3.F};

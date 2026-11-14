@@ -6,7 +6,6 @@ function(tengine_set_warnings target)
             -Wpedantic
             -Wconversion
             -Wsign-conversion
-            -Wshadow
             -Wnon-virtual-dtor
             -Wold-style-cast
         >

@@ -39,10 +39,10 @@ Matrix4 Matrix4::perspective(Scalar vertical_fov, Scalar aspect_ratio, Scalar ne
     const Scalar fn_sum = far_plane + near_plane;
     const Scalar fn_diff = far_plane - near_plane;
     const Scalar fn_prod = far_plane * near_plane;
-    return std::array4({{1 / (aspect_ratio * tan_half_fov), 0, 0, 0},
-                        {0, 1 / tan_half_fov, 0, 0},
-                        {0, 0, -fn_sum / fn_diff, -2 * fn_prod / fn_diff},
-                        {0, 0, -1, 0}});
+    return Matrix4({{{1 / (aspect_ratio * tan_half_fov), 0, 0, 0},
+                     {0, 1 / tan_half_fov, 0, 0},
+                     {0, 0, -fn_sum / fn_diff, -2 * fn_prod / fn_diff},
+                     {0, 0, -1, 0}}});
 }
 
 Matrix4 Matrix4::orthographic(Scalar left, Scalar right, Scalar bottom, Scalar top,
@@ -55,10 +55,10 @@ Matrix4 Matrix4::orthographic(Scalar left, Scalar right, Scalar bottom, Scalar t
     const Scalar fn_diff = far_plane - near_plane;
     const Scalar fn_sum = far_plane + near_plane;
 
-    return std::array4({{2 / rl_diff, 0, 0, -rl_sum / rl_diff},
-                        {0, 2 / tb_diff, 0, -tb_sum / tb_diff},
-                        {0, 0, -2 / fn_diff, -fn_sum / fn_diff},
-                        {0, 0, 0, 1}});
+    return Matrix4({{{2 / rl_diff, 0, 0, -rl_sum / rl_diff},
+                     {0, 2 / tb_diff, 0, -tb_sum / tb_diff},
+                     {0, 0, -2 / fn_diff, -fn_sum / fn_diff},
+                     {0, 0, 0, 1}}});
 }
 
 // Matrix operations
@@ -187,10 +187,10 @@ Matrix4 Matrix4::look_at(const Vector3& eye, const Vector3& target, const Vector
     const Vector3 R = cross(F, up).normalized();
     const Vector3 U = cross(R, F);
 
-    return std::array4({{R.x, R.y, R.z, dot(-R, eye)},
-                        {U.x, U.y, U.z, dot(-U, eye)},
-                        {-F.x, -F.y, -F.z, dot(F, eye)},
-                        {0, 0, 0, 1}});
+    return Matrix4({{{R.x, R.y, R.z, dot(-R, eye)},
+                     {U.x, U.y, U.z, dot(-U, eye)},
+                     {-F.x, -F.y, -F.z, dot(F, eye)},
+                     {0, 0, 0, 1}}});
 }
 
 // Arithmatic

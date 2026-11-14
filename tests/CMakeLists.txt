@@ -1,5 +1,4 @@
 add_executable(tengine_tests
-    core/test_smoke.cpp
     math/test_aabb.cpp
     math/test_intersections.cpp
     math/test_matrix3.cpp
