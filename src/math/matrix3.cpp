@@ -48,10 +48,9 @@ Matrix3 Matrix3::transposed() const noexcept
 
 Scalar Matrix3::determinant() const noexcept
 {
-    const auto& self = *this;
-    return (self(0, 0) * (self(1, 1) * self(2, 2) - self(1, 2) * self(2, 1)) -
-            self(0, 1) * (self(1, 0) * self(2, 2) - self(1, 2) * self(2, 0)) +
-            self(0, 2) * (self(1, 0) * self(2, 1) - self(1, 1) * self(2, 0)));
+    const auto& m = elements;
+    return (m[0] * (m[4] * m[8] - m[5] * m[7]) - m[1] * (m[3] * m[8] - m[5] * m[6]) +
+            m[2] * (m[3] * m[7] - m[4] * m[6]));
 }
 
 Matrix3 Matrix3::inverse() const noexcept

@@ -79,6 +79,24 @@ Matrix4 Matrix4::transposed() const noexcept
     return trans;
 }
 
+Scalar Matrix4::determinant() const noexcept
+{
+    const auto& m = elements;
+
+    // Precompute the sub-determinants of rows 3 and 4
+    const Scalar s0 = m[8] * m[13] - m[9] * m[12];
+    const Scalar s1 = m[8] * m[14] - m[10] * m[12];
+    const Scalar s2 = m[8] * m[15] - m[11] * m[12];
+    const Scalar s3 = m[9] * m[14] - m[10] * m[13];
+    const Scalar s4 = m[9] * m[15] - m[11] * m[13];
+    const Scalar s5 = m[10] * m[15] - m[11] * m[14];
+
+    // Combine with rows 1 and 2 using Laplace expansion
+    return (
+        m[0] * (m[5] * s5 - m[6] * s4 + m[7] * s3) - m[1] * (m[4] * s5 - m[6] * s2 + m[7] * s1) +
+        m[2] * (m[4] * s4 - m[5] * s2 + m[7] * s0) - m[3] * (m[4] * s3 - m[5] * s1 + m[6] * s0));
+}
+
 Matrix4 Matrix4::inverse() const noexcept
 {
     Matrix4 A = *this;

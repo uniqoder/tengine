@@ -9,8 +9,10 @@ Checks: >
   portability-*,
   readability-*,
   -readability-identifier-length,
+  -readability-magic-numbers,
   -cppcoreguidelines-pro-bounds-constant-array-index,
-  -cppcoreguidelines-avoid-do-while
+  -cppcoreguidelines-avoid-do-while,
+  -cppcoreguidelines-avoid-magic-numbers,
 
 WarningsAsErrors: ''
 
